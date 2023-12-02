@@ -1,17 +1,27 @@
+import java.io.File
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+    run {
+        val expectedTwoDigitNumbers = listOf(12, 38, 15, 77)
+        val expectedSum = 142
+
+        val testInput = File("src/Day01_test.txt").readLines()
+
+        val actualTwoDigitValues = testInput.mapToTwoDigits()
+        check(actualTwoDigitValues == expectedTwoDigitNumbers)
+
+        val actualSum = expectedTwoDigitNumbers.sum()
+        check(actualSum == expectedSum)
     }
 
-    fun part2(input: List<String>): Int {
-        return input.size
-    }
-
-    // test if implementation meets criteria from the description, like:
-    val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
-
-    val input = readInput("Day01")
-    part1(input).println()
-    part2(input).println()
+    val input = File("src/Day01.txt").readLines()
+    println("Result:")
+    println(input.mapToTwoDigits().sum())
 }
+
+private val String.firstCharacter get() = first { char -> char.isDigit() }
+private val String.lastCharacter get() = last { it.isDigit() }
+
+private fun List<String>.mapToTwoDigits() = map { line ->
+    line.firstCharacter.toString() + line.lastCharacter.toString()
+}.map { it.toInt() }
